@@ -4,6 +4,10 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+<<<<<<< HEAD
+=======
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+>>>>>>> b8fac1d (Add window renderer)
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -17,7 +21,11 @@ public class Window {
     private Window(){
         this.width = 1280;
         this.height = 720;
+<<<<<<< HEAD
         this.title = "My Engime";
+=======
+        this.title = "My Engine";
+>>>>>>> b8fac1d (Add window renderer)
     }
 
     public static Window get(){
@@ -32,6 +40,17 @@ public class Window {
 
         init();
         loop();
+<<<<<<< HEAD
+=======
+
+        //Free window callbacks and destroy windows
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+        //Terminate GLFW and free error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
+>>>>>>> b8fac1d (Add window renderer)
     }
 
     private void init() {
