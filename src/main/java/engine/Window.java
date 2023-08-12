@@ -1,13 +1,16 @@
 package engine;
 
+import engine.scenes.FirstScene;
+import engine.scenes.Scene;
+import engine.scenes.SecondScene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import util.Time;
 
-<<<<<<< HEAD
-=======
+import java.util.Objects;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
->>>>>>> b8fac1d (Add window renderer)
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
@@ -17,15 +20,12 @@ public class Window {
     private long glfwWindow;
     private final String title;
     private static Window window = null;
+    private static Scene currentScene;
 
     private Window(){
         this.width = 1280;
         this.height = 720;
-<<<<<<< HEAD
-        this.title = "My Engime";
-=======
         this.title = "My Engine";
->>>>>>> b8fac1d (Add window renderer)
     }
 
     public static Window get(){
@@ -40,8 +40,6 @@ public class Window {
 
         init();
         loop();
-<<<<<<< HEAD
-=======
 
         //Free window callbacks and destroy windows
         glfwFreeCallbacks(glfwWindow);
@@ -49,8 +47,7 @@ public class Window {
 
         //Terminate GLFW and free error callback
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
->>>>>>> b8fac1d (Add window renderer)
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
     private void init() {
@@ -84,18 +81,47 @@ public class Window {
 
         //Make OpenGL bindings available
         GL.createCapabilities();
+
+        Window.changeScene(0);
     }
 
     public void loop() {
+        float startFrameTime = Time.getTime();
+        float deltaTime = -1.0f;
+
         while ( !glfwWindowShouldClose(glfwWindow) ) {
             //Poll events
             glfwPollEvents();
-
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //Set window color
             glClear(GL_COLOR_BUFFER_BIT);
 
+            if( deltaTime >= 0 ){
+                currentScene.update(deltaTime);
+            }
+
             glfwSwapBuffers(glfwWindow); //Update buffers
+
+            float endFrameTime = Time.getTime();
+            deltaTime = endFrameTime - startFrameTime;
+            startFrameTime = endFrameTime;
+            System.out.println("FPS: " + ( 1/deltaTime ));
         }
     }
 
+    // TODO Generate method on compile by searching all the Scenes in the code
+    public static void changeScene(int sceneIndex){
+        switch (sceneIndex) {
+            case 0 -> {
+                currentScene = new FirstScene();
+                currentScene.init();
+            }
+            case 1-> {
+                currentScene = new SecondScene();
+                currentScene.init();
+            }
+            default -> {
+                assert false : "Unknown Scene '" + sceneIndex + "'";
+            }
+        }
+    }
 }
