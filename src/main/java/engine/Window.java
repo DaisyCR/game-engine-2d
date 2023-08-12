@@ -23,8 +23,8 @@ public class Window {
     private static Scene currentScene;
 
     private Window(){
-        this.width = 1280;
-        this.height = 720;
+        this.width = 1920;
+        this.height = 1080;
         this.title = "My Engine";
     }
 
@@ -104,7 +104,6 @@ public class Window {
             float endFrameTime = Time.getTime();
             deltaTime = endFrameTime - startFrameTime;
             startFrameTime = endFrameTime;
-            System.out.println("FPS: " + ( 1/deltaTime ));
         }
     }
 
