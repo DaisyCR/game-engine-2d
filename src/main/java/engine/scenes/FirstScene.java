@@ -1,6 +1,7 @@
 package engine.scenes;
 
 import engine.Camera;
+import engine.GameObject;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
@@ -18,6 +19,8 @@ public class FirstScene extends Scene{
     private int vaoId, vboId, eboID;
     private Shader defaultShader;
     private Texture testTexture;
+
+    GameObject testObj;
     private float[] vertexArray = {
     //        position                         color                    UV coords
             100.5f,  0.5f, 0.0f,         1.0f, 0.0f, 1.0f, 1.0f,        1, 1,
@@ -41,6 +44,8 @@ public class FirstScene extends Scene{
 
     @Override
     public void init() {
+        this.testObj = new GameObject("test object");
+
         this.camera = new Camera(new Vector2f());
         defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compile();
@@ -110,5 +115,9 @@ public class FirstScene extends Scene{
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
         defaultShader.detach();
+
+        for(GameObject go : this.gameObjects){
+            go.update(deltaTime);
+        }
     }
 }

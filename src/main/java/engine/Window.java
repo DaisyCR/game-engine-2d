@@ -121,10 +121,12 @@ public class Window {
             case 0 -> {
                 currentScene = new FirstScene();
                 currentScene.init();
+                currentScene.start();
             }
             case 1-> {
                 currentScene = new SecondScene();
                 currentScene.init();
+                currentScene.start();
             }
             default -> {
                 assert false : "Unknown Scene '" + sceneIndex + "'";
