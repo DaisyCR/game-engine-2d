@@ -115,6 +115,10 @@ public class Window {
         }
     }
 
+    public static Scene getScene(){
+        return get().currentScene;
+    }
+
     // TODO Generate method on compile by searching all the Scenes in the code
     public static void changeScene(int sceneIndex){
         switch (sceneIndex) {
