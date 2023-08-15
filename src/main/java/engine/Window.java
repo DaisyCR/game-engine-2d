@@ -6,7 +6,6 @@ import engine.scenes.SecondScene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
-import util.Time;
 
 import java.util.Objects;
 
@@ -94,7 +93,7 @@ public class Window {
     }
 
     public void loop() {
-        float startFrameTime = Time.getTime();
+        float startFrameTime = (float) glfwGetTime();
         float deltaTime = -1.0f;
 
         while ( !glfwWindowShouldClose(glfwWindow) ) {
@@ -109,7 +108,7 @@ public class Window {
 
             glfwSwapBuffers(glfwWindow); //Update buffers
 
-            float endFrameTime = Time.getTime();
+            float endFrameTime = (float) glfwGetTime();
             deltaTime = endFrameTime - startFrameTime;
             startFrameTime = endFrameTime;
         }
