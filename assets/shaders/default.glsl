@@ -21,5 +21,5 @@ in vec4 fColor;
 out vec4 color;
 
 void main() {
-    color = texture(TEX_SAMPLER, fTexCoords);
+    color = fColor;
 }

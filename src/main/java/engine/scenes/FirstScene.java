@@ -3,6 +3,7 @@ package engine.scenes;
 import engine.Camera;
 import engine.GameObject;
 import org.joml.Vector2f;
+import util.AssetPool;
 
 public class FirstScene extends Scene{
     public FirstScene(){
@@ -12,6 +13,11 @@ public class FirstScene extends Scene{
     @Override
     public void init() {
         this.camera = new Camera(new Vector2f());
+        loadResources();
+    }
+
+    private void loadResources() {
+        AssetPool.getShader("assets/shaders/default.glsl");
     }
 
     @Override
