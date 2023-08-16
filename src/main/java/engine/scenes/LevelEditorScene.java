@@ -1,5 +1,6 @@
 package engine.scenes;
 
+import components.RigidBody;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -31,6 +32,7 @@ public class LevelEditorScene extends Scene{
         SpriteRenderer obj1Sprite = new SpriteRenderer();
         obj1Sprite.setColor(new Vector4f(1,1,1,1));
         GameObject obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)), 0);
+        obj1.addComponent(new RigidBody());
         obj1.addComponent(obj1Sprite);
         this.addGameObjectToScene(obj1);
 
@@ -40,9 +42,8 @@ public class LevelEditorScene extends Scene{
         obj2Sprite.setTexture(AssetPool.getTexture("assets/images/testImage.png"));
         GameObject obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 0);
         obj2.addComponent(obj2SpriteRenderer);
+        obj2.addComponent(new RigidBody());
         this.addGameObjectToScene(obj2);
-
-
     }
 
     private void loadResources() {
@@ -50,6 +51,7 @@ public class LevelEditorScene extends Scene{
         AssetPool.addSpritesheet("assets/images/spritesheet.png",
                 new Spritesheet( AssetPool.getTexture("assets/images/spritesheet.png"),
                         16, 16, 26, 0));
+        AssetPool.getTexture("assets/images/testImage.png");
     }
 
     @Override

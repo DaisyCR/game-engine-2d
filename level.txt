@@ -3,12 +3,24 @@
     "name": "Object 1",
     "components": [
       {
+        "type": "components.RigidBody",
+        "properties": {
+          "colliderType": 0,
+          "friction": 23.8,
+          "velocity": {
+            "x": 0.0,
+            "y": 14.5,
+            "z": 0.0
+          }
+        }
+      },
+      {
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.044963427,
-            "y": 0.19139698,
-            "z": 0.89605737,
+            "x": 0.85570467,
+            "y": 0.59439886,
+            "z": 0.6101826,
             "w": 1.0
           },
           "sprite": {
@@ -83,6 +95,18 @@
                 "y": 1.0
               }
             ]
+          }
+        }
+      },
+      {
+        "type": "components.RigidBody",
+        "properties": {
+          "colliderType": 0,
+          "friction": 0.8,
+          "velocity": {
+            "x": 0.0,
+            "y": 0.5,
+            "z": 0.0
           }
         }
       }
