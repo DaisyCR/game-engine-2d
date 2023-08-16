@@ -9,6 +9,7 @@ version = '1.0-SNAPSHOT'
 
 project.ext.lwjglVersion = "3.3.2"
 project.ext.jomlVersion = "1.10.5"
+project.ext.imguiVersion = "1.76-0.9"
 
 switch (OperatingSystem.current()) {
     case OperatingSystem.LINUX:
@@ -26,10 +27,13 @@ switch (OperatingSystem.current()) {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
+    //LWJGL
+    //////////////////////////////////////////////////////////////////////////////////////////
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"
@@ -45,4 +49,15 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
+
+    //ImGUI-java
+    //////////////////////////////////////////////////////////////////////////////////////////
+    implementation "io.imgui.java:binding:$imguiVersion"
+    implementation "io.imgui.java:lwjgl3:$imguiVersion"
+
+    // Include all available natives, but it's likely that you want something specific
+    runtimeOnly "io.imgui.java:natives-windows:$imguiVersion"
+    runtimeOnly "io.imgui.java:natives-windows-x86:$imguiVersion"
+    runtimeOnly "io.imgui.java:natives-linux:$imguiVersion"
+    runtimeOnly "io.imgui.java:natives-linux-x86:$imguiVersion"
 }

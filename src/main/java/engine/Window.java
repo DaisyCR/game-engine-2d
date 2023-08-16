@@ -1,6 +1,6 @@
 package engine;
 
-import engine.scenes.FirstScene;
+import engine.scenes.LevelEditorScene;
 import engine.scenes.Scene;
 import engine.scenes.SecondScene;
 import org.lwjgl.Version;
@@ -15,11 +15,13 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-    private final int width, height;
+    private int width;
+    private int height;
     private long glfwWindow;
-    private final String title;
+    private String title;
     private static Window window = null;
     private static Scene currentScene;
+    private ImGuiLayer imGuiLayer;
 
     private Window(){
         this.width = 1920;
@@ -69,13 +71,16 @@ public class Window {
         if ( glfwWindow == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        //Setup Keyboard Listener
+        //Initialize Callbacks
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
-
-        //Setup Mouse Listener
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
+            Window.setWidth(newWidth);
+            Window.setHeight(newHeight);
+        });
+
 
         //Make OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
@@ -93,8 +98,14 @@ public class Window {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+        //Setup ImGUI
+        this.imGuiLayer = new ImGuiLayer(glfwWindow);
+        this.imGuiLayer.initImGui();
+
         Window.changeScene(0);
     }
+
+
 
     public void loop() {
         float startFrameTime = (float) glfwGetTime();
@@ -110,6 +121,7 @@ public class Window {
                 currentScene.update(deltaTime);
             }
 
+            this.imGuiLayer.update(deltaTime, currentScene);
             glfwSwapBuffers(glfwWindow); //Update buffers
 
             float endFrameTime = (float) glfwGetTime();
@@ -126,7 +138,7 @@ public class Window {
     public static void changeScene(int sceneIndex){
         switch (sceneIndex) {
             case 0 -> {
-                currentScene = new FirstScene();
+                currentScene = new LevelEditorScene();
                 currentScene.init();
                 currentScene.start();
             }
@@ -139,5 +151,21 @@ public class Window {
                 assert false : "Unknown Scene '" + sceneIndex + "'";
             }
         }
+    }
+
+    public static int getWidth(){
+        return get().width;
+    }
+
+    public static int getHeight(){
+        return get().height;
+    }
+
+    private static void setWidth(int newWidth) {
+        get().width = newWidth;
+    }
+
+    private static void setHeight(int newHeight) {
+        get().height = newHeight;
     }
 }

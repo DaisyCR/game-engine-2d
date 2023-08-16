@@ -5,11 +5,12 @@ import components.Spritesheet;
 import engine.Camera;
 import engine.GameObject;
 import engine.Transform;
+import imgui.ImGui;
 import org.joml.Vector2f;
 import util.AssetPool;
 
-public class FirstScene extends Scene{
-    public FirstScene(){
+public class LevelEditorScene extends Scene{
+    public LevelEditorScene(){
 
     }
 
@@ -27,6 +28,8 @@ public class FirstScene extends Scene{
         GameObject obj2 = new GameObject("Object 2", new Transform(new Vector2f(400, 100), new Vector2f(256, 256)), 0);
         obj2.addComponent(new SpriteRenderer(sprites.getSprite(10)));
         this.addGameObjectToScene(obj2);
+
+        this.activeGameObject = obj1;
     }
 
     private void loadResources() {
@@ -43,5 +46,12 @@ public class FirstScene extends Scene{
             go.update(deltaTime);
         }
         this.renderer.render();
+    }
+
+    @Override
+    public void imGui() {
+        ImGui.begin("Test Window");
+        ImGui.text("Hi, i'm testing this window");
+        ImGui.end();
     }
 }
