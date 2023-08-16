@@ -83,6 +83,57 @@ public class RenderBatch {
         glEnableVertexAttribArray(3);
     }
 
+    public void render(){
+        //Check if any sprites has changed and needs to be reloaded
+        boolean rebufferData = false;
+        for( int i = 0; i < numSprites; i++ ){
+            SpriteRenderer spr = sprites[i];
+            if( spr.isDirty() ){
+                loadVertexProperties(i);
+                spr.setClean();
+                rebufferData = true;
+            }
+        }
+
+        if( rebufferData ) {
+            glBindBuffer(GL_ARRAY_BUFFER, vboID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        }
+
+        //Use Shader
+        shader.use();
+
+        //Setup Camera
+        shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
+        shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
+
+        //Setup Textures
+        for( int i = 0; i < textures.size(); i++ ){
+            glActiveTexture(GL_TEXTURE0 + i + 1);
+            textures.get(i).bind();
+        }
+        shader.uploadIntArray("uTextures", texSlots);
+
+        //Bind Vertex Array buffer
+        glBindVertexArray(vaoID);
+
+        //Enable vertex attribute pointers
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        //Draw elements on screen
+        glDrawElements(GL_TRIANGLES, this.numSprites * 6, GL_UNSIGNED_INT, 0);
+
+        //Unbind everything
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
+        for( int i = 0; i < textures.size(); i++ ){
+            textures.get(i).unbind();
+        }
+        shader.detach();
+    }
+
     public void addSprite(SpriteRenderer sprite){
         //Get index and add sprite
         int index = this.numSprites;
@@ -151,45 +202,6 @@ public class RenderBatch {
 
             offset += VERTEX_SIZE;
         }
-    }
-
-    public void render(){
-        //Re-buffer all data every frame
-        glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
-
-        //Use Shader
-        shader.use();
-
-        //Setup Camera
-        shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
-        shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
-
-        //Setup Textures
-        for( int i = 0; i < textures.size(); i++ ){
-            glActiveTexture(GL_TEXTURE0 + i + 1);
-            textures.get(i).bind();
-        }
-        shader.uploadIntArray("uTextures", texSlots);
-
-        //Bind Vertex Array buffer
-        glBindVertexArray(vaoID);
-
-        //Enable vertex attribute pointers
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-
-        //Draw elements on screen
-        glDrawElements(GL_TRIANGLES, this.numSprites * 6, GL_UNSIGNED_INT, 0);
-
-        //Unbind everything
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-        glBindVertexArray(0);
-        for( int i = 0; i < textures.size(); i++ ){
-            textures.get(i).unbind();
-        }
-        shader.detach();
     }
 
     private int[] generateIndices(){

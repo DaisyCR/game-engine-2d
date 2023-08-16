@@ -1,6 +1,5 @@
 package engine.scenes;
 
-import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
 import engine.Camera;
