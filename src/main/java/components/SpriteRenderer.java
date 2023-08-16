@@ -9,11 +9,12 @@ import renderer.Texture;
 
 public class SpriteRenderer extends Component {
 
-    private Vector4f color;
-    private Sprite sprite;
-    private Transform lastTransform;
-    private boolean isDirty = false;
+    private Vector4f color = new Vector4f(1,1,1,1);
+    private Sprite sprite = new Sprite();
+    private transient Transform lastTransform;
+    private transient boolean isDirty = false;
 
+    /*
     public SpriteRenderer(Vector4f color){
         this.color = color;
         this.sprite = new Sprite(null);
@@ -25,7 +26,7 @@ public class SpriteRenderer extends Component {
         this.color = new Vector4f(1, 1, 1, 1);
         this.isDirty = true;
     }
-
+*/
     @Override
     public void start() {
         this.lastTransform = gameObject.transform.copy();
