@@ -128,6 +128,7 @@ public class Window {
             deltaTime = endFrameTime - startFrameTime;
             startFrameTime = endFrameTime;
         }
+        currentScene.saveExit();
     }
 
     public static Scene getScene(){
@@ -139,11 +140,13 @@ public class Window {
         switch (sceneIndex) {
             case 0 -> {
                 currentScene = new LevelEditorScene();
+                currentScene.load();
                 currentScene.init();
                 currentScene.start();
             }
             case 1-> {
                 currentScene = new SecondScene();
+                currentScene.load();
                 currentScene.init();
                 currentScene.start();
             }

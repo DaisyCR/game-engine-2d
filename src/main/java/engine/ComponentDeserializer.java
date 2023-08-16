@@ -4,16 +4,18 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class ComponentDeserializer implements JsonSerializer<Component>, JsonDeserializer<Component>{
+public class ComponentDeserializer implements JsonSerializer<Component>,
+        JsonDeserializer<Component> {
+
     @Override
     public Component deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        try{
+        try {
             return context.deserialize(element, Class.forName(type));
-        } catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             throw new JsonParseException("Unknown element type: " + type, e);
         }
     }
