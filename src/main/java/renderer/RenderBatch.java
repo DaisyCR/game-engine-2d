@@ -4,7 +4,6 @@ import components.SpriteRenderer;
 import engine.Window;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import org.w3c.dom.Text;
 import util.AssetPool;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch> {
     //Vertex
     private final int POSITION_SIZE = 2;
     private final int COLOR_SIZE = 4;
@@ -40,14 +39,16 @@ public class RenderBatch {
     private int vaoID, vboID;
     private int maxBatchSize;
     private Shader shader;
+    private int zIndex;
 
-    public RenderBatch(int maxBatchSize){
+    public RenderBatch(int maxBatchSize, int zIndex){
         shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
         this.numSprites = 0;
         this.hasRoom = true;
         this.textures = new ArrayList<>();
+        this.zIndex = zIndex;
 
         //4 vertices quads
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -238,5 +239,14 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture texture){
         return this.textures.contains(texture);
+    }
+
+    public int zIndex(){
+        return this.zIndex;
+    }
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        return Integer.compare(this.zIndex, o.zIndex);
     }
 }
