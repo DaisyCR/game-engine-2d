@@ -1,7 +1,9 @@
-package engine.scenes;
+package scenes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Component;
+import components.ComponentDeserializer;
 import engine.*;
 import imgui.ImGui;
 import renderer.Renderer;

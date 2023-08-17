@@ -1,4 +1,4 @@
-package engine.scenes;
+package scenes;
 
 import components.RigidBody;
 import components.Sprite;
@@ -11,7 +11,6 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import renderer.Texture;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene{

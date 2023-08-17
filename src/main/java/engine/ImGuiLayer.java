@@ -1,6 +1,6 @@
 package engine;
 
-import engine.scenes.Scene;
+import scenes.Scene;
 import imgui.*;
 import imgui.callbacks.ImStrConsumer;
 import imgui.callbacks.ImStrSupplier;

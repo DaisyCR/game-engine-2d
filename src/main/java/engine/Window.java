@@ -1,8 +1,8 @@
 package engine;
 
-import engine.scenes.LevelEditorScene;
-import engine.scenes.Scene;
-import engine.scenes.SecondScene;
+import scenes.LevelEditorScene;
+import scenes.Scene;
+import scenes.LevelScene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -145,7 +145,7 @@ public class Window {
                 currentScene.start();
             }
             case 1-> {
-                currentScene = new SecondScene();
+                currentScene = new LevelScene();
                 currentScene.load();
                 currentScene.init();
                 currentScene.start();

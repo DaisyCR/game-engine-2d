@@ -1,5 +1,6 @@
-package engine;
+package components;
 
+import engine.GameObject;
 import imgui.ImGui;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
