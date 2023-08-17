@@ -9,9 +9,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public abstract class Component {
+    private static int ID_COUNTER = 0;
+    private int uId = -1;
     public transient GameObject gameObject;
 
+    public static void init(int maxId){
+        ID_COUNTER = maxId;
+    }
+
     public void start(){}
+
     public void update(float deltaTime){};
 
     public void imGui() {
@@ -67,5 +74,15 @@ public abstract class Component {
         } catch (IllegalAccessException e){
             e.printStackTrace();
         }
+    }
+
+    public void generateId(){
+        if( this.uId == -1 ){
+            this.uId = ID_COUNTER++;
+        }
+    }
+
+    public int getuId(){
+        return this.uId;
     }
 }
