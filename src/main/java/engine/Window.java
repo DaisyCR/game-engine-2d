@@ -1,5 +1,6 @@
 package engine;
 
+import renderer.DebugDraw;
 import scenes.LevelEditorScene;
 import scenes.Scene;
 import scenes.LevelScene;
@@ -114,10 +115,12 @@ public class Window {
         while ( !glfwWindowShouldClose(glfwWindow) ) {
             //Poll events
             glfwPollEvents();
+            DebugDraw.beginFrame();
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //Set window color
             glClear(GL_COLOR_BUFFER_BIT);
 
             if( deltaTime >= 0 ){
+                DebugDraw.draw();
                 currentScene.update(deltaTime);
             }
 

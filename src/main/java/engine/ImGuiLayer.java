@@ -164,7 +164,7 @@ public class ImGuiLayer {
         fontConfig.setMergeMode(false);
         fontConfig.setPixelSnapH(false);
 
-        fontAtlas.addFontFromFileTTF("assets/fonts/FreePixel.ttf", 25, fontConfig);
+        fontAtlas.addFontFromFileTTF("assets/fonts/FreePixel.ttf", 16, fontConfig);
 
         fontConfig.destroy(); // After all fonts were added we don't need this config more
 
