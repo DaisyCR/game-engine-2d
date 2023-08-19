@@ -1,6 +1,7 @@
 package engine;
 
 import renderer.DebugDraw;
+import renderer.Framebuffer;
 import scenes.LevelEditorScene;
 import scenes.Scene;
 import scenes.LevelScene;
@@ -23,6 +24,7 @@ public class Window {
     private static Window window = null;
     private static Scene currentScene;
     private ImGuiLayer imGuiLayer;
+    private Framebuffer framebuffer;
 
     private Window(){
         this.width = 1920;
@@ -103,6 +105,9 @@ public class Window {
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
 
+        //Enable framebuffer
+        this.framebuffer = new Framebuffer(1920, 1080);
+
         Window.changeScene(0);
     }
 
@@ -119,10 +124,12 @@ public class Window {
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //Set window color
             glClear(GL_COLOR_BUFFER_BIT);
 
+            this.framebuffer.bind();
             if( deltaTime >= 0 ){
                 DebugDraw.draw();
                 currentScene.update(deltaTime);
             }
+            this.framebuffer.unbind();
 
             this.imGuiLayer.update(deltaTime, currentScene);
             glfwSwapBuffers(glfwWindow); //Update buffers
