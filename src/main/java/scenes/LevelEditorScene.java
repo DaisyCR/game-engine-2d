@@ -1,6 +1,8 @@
 package scenes;
 
 import components.*;
+import editor.GridLines;
+import editor.MouseControls;
 import engine.Camera;
 import engine.GameObject;
 import engine.Prefabs;
@@ -8,9 +10,6 @@ import engine.Transform;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-import renderer.DebugDraw;
 import util.AssetPool;
 
 public class LevelEditorScene extends Scene{
@@ -79,8 +78,14 @@ public class LevelEditorScene extends Scene{
         for(GameObject go : this.gameObjects){
             go.update(deltaTime);
         }
+
+    }
+
+    @Override
+    public void render(){
         this.renderer.render();
     }
+
 
     @Override
     public void imGui() {

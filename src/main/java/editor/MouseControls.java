@@ -1,5 +1,6 @@
-package components;
+package editor;
 
+import components.Component;
 import engine.GameObject;
 import engine.MouseListener;
 import engine.Window;
@@ -7,7 +8,7 @@ import util.Constants;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
-public class MouseControls extends Component{
+public class MouseControls extends Component {
     GameObject holdingObject = null;
 
     public void pickUpObject(GameObject go){

@@ -1,6 +1,9 @@
-package engine;
+package editor;
 
 import editor.GameViewWindow;
+import engine.KeyListener;
+import engine.MouseListener;
+import engine.Window;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;

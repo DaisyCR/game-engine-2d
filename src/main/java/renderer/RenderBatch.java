@@ -20,11 +20,13 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int COLOR_SIZE = 4;
     private final int TEX_COORDS_SIZE = 2;
     private final int TEX_ID_SIZE = 1;
+    private final int ENTITY_ID_SIZE = 1;
 
     private final int POSITION_OFFSET = 0;
     private final int COLOR_OFFSET = POSITION_OFFSET + POSITION_SIZE * Float.BYTES;
     private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
     private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
+    private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES  ;
 
     private final int VERTEX_SIZE = POSITION_SIZE + COLOR_SIZE + TEX_COORDS_SIZE + TEX_ID_SIZE;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
@@ -38,11 +40,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private List<Texture> textures;
     private int vaoID, vboID;
     private int maxBatchSize;
-    private Shader shader;
     private int zIndex;
 
     public RenderBatch(int maxBatchSize, int zIndex){
-        shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
         this.numSprites = 0;
@@ -82,10 +82,14 @@ public class RenderBatch implements Comparable<RenderBatch> {
 
         glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_ID_OFFSET);
         glEnableVertexAttribArray(3);
+
+        glVertexAttribPointer(4, ENTITY_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, ENTITY_ID_OFFSET);
+        glEnableVertexAttribArray(4);
     }
 
     public void render(){
         //Check if any sprites has changed and needs to be reloaded
+        Shader shader = Renderer.getBoundShader();
         boolean rebufferData = false;
         for( int i = 0; i < numSprites; i++ ){
             SpriteRenderer spr = sprites[i];
@@ -199,6 +203,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
             vertices[offset + 6] = texCoords[i].x;
             vertices[offset + 7] = texCoords[i].y;
             vertices[offset + 8] = texID;
+
+            //Load EntityId
+            vertices[offset + 9] = sprite.gameObject.getuId() + 1;
 
 
             offset += VERTEX_SIZE;

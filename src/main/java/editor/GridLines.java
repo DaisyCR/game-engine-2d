@@ -1,12 +1,13 @@
-package components;
+package editor;
 
+import components.Component;
 import engine.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import renderer.DebugDraw;
 import util.Constants;
 
-public class GridLines extends Component{
+public class GridLines extends Component {
     @Override
     public void update(float deltaTime){
         Vector2f cameraPos = Window.getScene().camera().position;
