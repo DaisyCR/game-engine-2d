@@ -70,9 +70,10 @@ public class Window {
 
         //Configure GLFW
         glfwDefaultWindowHints();
+        glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint( GLFW_VISIBLE, GLFW_FALSE ); //Starts the window hidden
         glfwWindowHint( GLFW_RESIZABLE, GLFW_TRUE ); //Allows the window to be resizable
-        glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE ); //Starts thw window maximized
 
         //Create the Window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -97,6 +98,7 @@ public class Window {
         glfwSwapInterval(1);
 
         //Make window visible
+        glfwMaximizeWindow(glfwWindow);
         glfwShowWindow(glfwWindow);
 
         //Make OpenGL bindings available
@@ -211,7 +213,7 @@ public class Window {
         return get().framebuffer;
     }
 
-    public static float getTargetAspectRatio(){
+    public static float getAspectRatio(){
         return 16.0f / 9.0f;
     }
 
