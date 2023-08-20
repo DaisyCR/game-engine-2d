@@ -1,16 +1,19 @@
 package editor;
 
-import editor.GameViewWindow;
+
 import engine.KeyListener;
 import engine.MouseListener;
 import engine.Window;
+import imgui.ImFontAtlas;
+import imgui.ImFontConfig;
+import imgui.ImGui;
+import imgui.ImGuiIO;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
+import imgui.gl3.ImGuiImplGl3;
 import imgui.type.ImBoolean;
 import scenes.Scene;
-import imgui.*;
-import imgui.gl3.ImGuiImplGl3;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -173,7 +176,7 @@ public class ImGuiLayer {
 
         // ------------------------------------------------------------
         // Use freetype instead of stb_truetype to build a fonts texture
-        ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
+        //ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
 
         // Method initializes LWJGL3 renderer.
         // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
@@ -237,7 +240,7 @@ public class ImGuiLayer {
     private void endFrame() {
         // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
         // At that moment ImGui will be rendered to the current OpenGL context.
-        imGuiGl3.render(ImGui.getDrawData());
+        imGuiGl3.renderDrawData(ImGui.getDrawData());
     }
 
     private void destroyImGui() {
