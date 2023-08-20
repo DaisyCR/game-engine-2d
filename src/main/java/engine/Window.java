@@ -107,6 +107,7 @@ public class Window {
 
         //Enable framebuffer
         this.framebuffer = new Framebuffer(1920, 1080);
+        glViewport(0,0 ,1920, 1080);
 
         Window.changeScene(0);
     }
@@ -121,10 +122,10 @@ public class Window {
             //Poll events
             glfwPollEvents();
             DebugDraw.beginFrame();
+            this.framebuffer.bind();
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //Set window color
             glClear(GL_COLOR_BUFFER_BIT);
 
-            this.framebuffer.bind();
             if( deltaTime >= 0 ){
                 DebugDraw.draw();
                 currentScene.update(deltaTime);
@@ -173,6 +174,15 @@ public class Window {
     public static int getHeight(){
         return get().height;
     }
+
+    public static Framebuffer getFramebuffer() {
+        return get().framebuffer;
+    }
+
+    public static float getTargetAspectRatio(){
+        return 16.0f / 9.0f;
+    }
+
 
     private static void setWidth(int newWidth) {
         get().width = newWidth;

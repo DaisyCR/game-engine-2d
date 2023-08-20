@@ -1,5 +1,6 @@
 package engine;
 
+import editor.GameViewWindow;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
@@ -120,7 +121,7 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if( !io.getWantCaptureMouse() ){
+            if(!io.getWantCaptureMouse() || GameViewWindow.getWantCaptureMouse()){
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -181,10 +182,13 @@ public class ImGuiLayer {
     public void update(float deltaTime, Scene currentScene){
         startFrame(deltaTime);
         ImGui.newFrame();
+
         setupDockSpace();
         currentScene.sceneImGui();
         ImGui.showDemoWindow();
+        GameViewWindow.imGui();
         ImGui.end();
+
         ImGui.render();
         endFrame();
     }
