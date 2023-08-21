@@ -1,6 +1,7 @@
 package scenes;
 
 import components.*;
+import editor.EditorCamera;
 import editor.GridLines;
 import editor.MouseControls;
 import engine.Camera;
@@ -23,9 +24,11 @@ public class LevelEditorScene extends Scene{
     @Override
     public void init() {
         loadResources();
+        this.camera = new Camera(new Vector2f());
+        this.camera.adjustProjection();
         levelEditorObject.addComponent(new MouseControls());
         levelEditorObject.addComponent(new GridLines());
-        this.camera = new Camera(new Vector2f());
+        levelEditorObject.addComponent(new EditorCamera(this.camera));
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
 
     }
@@ -50,7 +53,7 @@ public class LevelEditorScene extends Scene{
     @Override
     public void update(float deltaTime) {
         levelEditorObject.update(deltaTime);
-        //System.out.println("FPS: " + (1 / deltaTime));
+
         for(GameObject go : this.gameObjects){
             go.update(deltaTime);
         }

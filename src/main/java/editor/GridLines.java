@@ -1,6 +1,7 @@
 package editor;
 
 import components.Component;
+import engine.Camera;
 import engine.Window;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -10,17 +11,18 @@ import util.Constants;
 public class GridLines extends Component {
     @Override
     public void update(float deltaTime){
-        Vector2f cameraPos = Window.getScene().camera().position;
-        Vector2f projectionSize = Window.getScene().camera().getProjectionSize();
+        Camera camera = Window.getScene().camera();
+        Vector2f cameraPos = camera.position;
+        Vector2f projectionSize = camera.getProjectionSize();
 
         int firstX = ((int)(cameraPos.x / Constants.GRID_WIDTH) - 1) * Constants.GRID_HEIGHT;
         int firstY = ((int)(cameraPos.y / Constants.GRID_HEIGHT) - 1) * Constants.GRID_HEIGHT;
 
-        int numVerticalLines = (int)(projectionSize.x / Constants.GRID_WIDTH) + 2;
-        int numHorizontalLines = (int)(projectionSize.y / Constants.GRID_HEIGHT) + 2;
+        int numVerticalLines = (int)(projectionSize.x * camera.getZoom() / Constants.GRID_WIDTH) + 2;
+        int numHorizontalLines = (int)(projectionSize.y * camera.getZoom() / Constants.GRID_HEIGHT) + 2;
 
-        int width = (int)projectionSize.x + Constants.GRID_HEIGHT * 2;
-        int height =(int)projectionSize.y + Constants.GRID_WIDTH * 2;
+        int width = (int)(projectionSize.x * camera.getZoom()) + Constants.GRID_HEIGHT * 2;
+        int height =(int)(projectionSize.y * camera.getZoom()) + Constants.GRID_WIDTH * 2;
 
         int maxLines = Math.max(numVerticalLines, numHorizontalLines);
         for(int i = 0; i < maxLines; i++){

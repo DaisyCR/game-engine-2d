@@ -159,10 +159,14 @@ public class Window {
 
             this.imGuiLayer.update(deltaTime, currentScene);
             glfwSwapBuffers(glfwWindow); //Update buffers
+            MouseListener.endFrame();
 
             float endFrameTime = (float) glfwGetTime();
             deltaTime = endFrameTime - startFrameTime;
             startFrameTime = endFrameTime;
+            double fps = Math.round((1 / deltaTime));
+            glfwSetWindowTitle(glfwWindow, "My Engine | FPS: " + fps + "");
+
         }
         currentScene.saveExit();
     }
