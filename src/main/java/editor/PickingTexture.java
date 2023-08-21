@@ -1,14 +1,13 @@
 package editor;
 
-import renderer.Texture;
-
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT32;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 
 public class PickingTexture {
-    private int pickingTextureId, fboID, depthTexture;
+    private int pickingTextureId;
+    private int fboId;
+    private int depthTexture;
 
     public PickingTexture(int width, int height) {
         if(!init(width, height)){
@@ -18,8 +17,8 @@ public class PickingTexture {
 
     public boolean init(int width, int height) {
         // Generate framebuffer
-        fboID = glGenFramebuffers();
-        glBindFramebuffer(GL_FRAMEBUFFER, fboID);
+        fboId = glGenFramebuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, fboId);
 
         // Create the texture to render the data to, and attach it to our framebuffer
         pickingTextureId = glGenTextures();
@@ -57,22 +56,21 @@ public class PickingTexture {
         return true;
     }
 
-    public void enableWritting(){
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboID);
+    public void enableWriting() {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fboId);
     }
 
-    public void disableWritting(){
+    public void disableWriting() {
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     }
 
-    public int readPixel(int x, int y){
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, fboID);
+    public int readPixel(int x, int y) {
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, fboId);
         glReadBuffer(GL_COLOR_ATTACHMENT0);
 
-        float pixels[] = new float[3];
+        float[] pixels = new float[3];
         glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixels);
-        return ((int)pixels[0]) - 1;
+
+        return ((int)(pixels[0])) - 1;
     }
-
-
 }

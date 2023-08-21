@@ -2,16 +2,13 @@ package engine;
 
 import editor.ImGuiLayer;
 import editor.PickingTexture;
-import renderer.DebugDraw;
-import renderer.Framebuffer;
-import renderer.Renderer;
-import renderer.Shader;
-import scenes.LevelEditorScene;
-import scenes.Scene;
-import scenes.LevelScene;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import renderer.*;
+import scenes.LevelEditorScene;
+import scenes.LevelScene;
+import scenes.Scene;
 import util.AssetPool;
 
 import java.util.Objects;
@@ -135,7 +132,7 @@ public class Window {
 
             //Render to pick textures
             glDisable(GL_BLEND);
-            pickingTexture.enableWritting();
+            pickingTexture.enableWriting();
 
             glViewport(0, 0, 1920, 1080);
             glClearColor(0.0f,0.0f,0.0f,0.0f);
@@ -149,7 +146,7 @@ public class Window {
                 System.out.println(pickingTexture.readPixel(x, y));
             }
 
-            pickingTexture.disableWritting();
+            pickingTexture.disableWriting();
             glEnable(GL_BLEND);
 
             //Render to show game

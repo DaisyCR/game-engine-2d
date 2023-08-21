@@ -4,7 +4,6 @@ import components.SpriteRenderer;
 import engine.Window;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
-import util.AssetPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +25,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int COLOR_OFFSET = POSITION_OFFSET + POSITION_SIZE * Float.BYTES;
     private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
     private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
-    private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES  ;
+    private final int ENTITY_ID_OFFSET = TEX_ID_OFFSET + TEX_ID_SIZE * Float.BYTES;
 
-    private final int VERTEX_SIZE = POSITION_SIZE + COLOR_SIZE + TEX_COORDS_SIZE + TEX_ID_SIZE;
+    private final int VERTEX_SIZE = 10;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
     private SpriteRenderer[] sprites;
