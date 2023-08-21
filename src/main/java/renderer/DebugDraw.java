@@ -39,9 +39,6 @@ public class DebugDraw {
         glEnableVertexAttribArray(0); //Position
         glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1); //Color
-
-        //Set line width
-        glLineWidth(2.0f);
     }
 
     public static void beginFrame(){

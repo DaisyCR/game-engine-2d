@@ -28,10 +28,12 @@ public class ImGuiLayer {
     private String glslVersion = null; // We can initialize our renderer with different versions of the GLSL
 
     private GameViewWindow gameViewWindow;
+    private PropertiesWindow propertiesWindow;
 
-    public ImGuiLayer(long glfwWindow){
+    public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture){
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
+        this.propertiesWindow = new PropertiesWindow(pickingTexture);
     }
 
     public void initImGui() {
@@ -80,9 +82,11 @@ public class ImGuiLayer {
         ImGui.newFrame();
 
         setupDockSpace();
-        currentScene.sceneImGui();
+        currentScene.imGui();
         ImGui.showDemoWindow();
         gameViewWindow.imGui();
+        propertiesWindow.update(deltaTime, currentScene);
+        propertiesWindow.imGui();
         ImGui.end();
 
         endFrame();
