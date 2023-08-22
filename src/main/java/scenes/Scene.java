@@ -71,6 +71,13 @@ public abstract class Scene {
 
     }
 
+    public GameObject createGameObject(String name){
+        GameObject go = new GameObject(name);
+        go.addComponent(new Transform());
+        go.transform = go.getComponent(Transform.class);
+        return go;
+    }
+
     public void saveExit() {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()

@@ -13,7 +13,7 @@ import util.AssetPool;
 public class LevelEditorScene extends Scene{
     private Spritesheet sprites;
     private Spritesheet gizmos;
-    private GameObject levelEditorObject = new GameObject("Level Editor Object", new Transform(new Vector2f()), 0);
+    private GameObject levelEditorObject = this.createGameObject("Level Editor Object");
 
     public LevelEditorScene(){
 
