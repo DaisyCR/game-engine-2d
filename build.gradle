@@ -27,6 +27,9 @@ switch (OperatingSystem.current()) {
 }
 
 repositories {
+    flatDir{
+        dirs "libs"
+    }
     mavenCentral()
 }
 
@@ -55,4 +58,8 @@ dependencies {
     // Gson
     // https://github.com/google/gson
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    //Box2d
+    // https://github.com/jbox2d/jbox2d
+    implementation name: "jbox2d-library"
 }
