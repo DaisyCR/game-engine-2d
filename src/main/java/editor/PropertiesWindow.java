@@ -1,5 +1,6 @@
 package editor;
 
+import components.NonPickable;
 import engine.GameObject;
 import engine.MouseListener;
 import imgui.ImGui;
@@ -10,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 public class PropertiesWindow {
     private GameObject activeGameObject = null;
     private PickingTexture pickingTexture;
-    private float deBounce = 0.2f; //TODO REALLY fix the dragging function
+    private float deBounce = 0.2f;
 
     public PropertiesWindow(PickingTexture pickingTexture) {
         this.pickingTexture = pickingTexture;
@@ -22,7 +23,13 @@ public class PropertiesWindow {
             int x = (int)MouseListener.getScreenX();
             int y = (int)MouseListener.getScreenY();
             int gameObjectId = pickingTexture.readPixel(x, y);
-            activeGameObject = currentScene.getGameObject(gameObjectId);
+
+            GameObject pickedObj = currentScene.getGameObject(gameObjectId);
+            if(pickedObj != null && pickedObj.getComponent(NonPickable.class) == null){
+                activeGameObject = pickedObj;
+            } else if(pickedObj == null && !MouseListener.isDragging()){
+                activeGameObject = null;
+            }
             this.deBounce = 0.2f;
         }
     }

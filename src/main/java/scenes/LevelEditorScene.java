@@ -30,14 +30,14 @@ public class LevelEditorScene extends Scene{
         levelEditorObject.addComponent(new MouseControls());
         levelEditorObject.addComponent(new GridLines());
         levelEditorObject.addComponent(new EditorCamera(this.camera));
-        levelEditorObject.addComponent(new TranslateGizmos(gizmos.getSprite(1), Window.get().getImGuiLayer().getPropertiesWindow())); //TODO add a event system
+        levelEditorObject.addComponent(new GizmoSystem(gizmos));
         levelEditorObject.start();
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
         AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png", new Spritesheet( AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"), 16, 16, 81, 0));
-        AssetPool.addSpritesheet("assets/images/gizmos.png", new Spritesheet(AssetPool.getTexture("assets/images/gizmos.png"), 24, 48, 2, 0));
+        AssetPool.addSpritesheet("assets/images/gizmos.png", new Spritesheet(AssetPool.getTexture("assets/images/gizmos.png"), 24, 48, 3, 0));
         AssetPool.getTexture("assets/images/testImage.png");
 
         for(GameObject go : gameObjects){

@@ -80,6 +80,10 @@ public class GameObject {
         }
     }
 
+    public void setzIndex(int zIndex) {
+        this.zIndex = zIndex;
+    }
+
     public int zIndex(){
         return this.zIndex;
     }
