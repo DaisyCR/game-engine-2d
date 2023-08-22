@@ -1,4 +1,4 @@
-package editor;
+package components;
 
 import components.Component;
 import engine.GameObject;

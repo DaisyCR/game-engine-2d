@@ -118,7 +118,6 @@ public class Window {
     }
 
 
-
     public void loop() {
         float startFrameTime = (float) glfwGetTime();
         float deltaTime = -1.0f;
@@ -176,6 +175,7 @@ public class Window {
     }
 
     // TODO Generate method on compile by searching all the Scenes in the code
+
     public static void changeScene(int sceneIndex){
         switch (sceneIndex) {
             case 0 -> {
@@ -195,7 +195,6 @@ public class Window {
             }
         }
     }
-
     public static int getWidth(){
         return get().width;
     }
@@ -210,6 +209,10 @@ public class Window {
 
     public static float getAspectRatio(){
         return 16.0f / 9.0f;
+    }
+
+    public ImGuiLayer getImGuiLayer() {
+        return imGuiLayer;
     }
 
 

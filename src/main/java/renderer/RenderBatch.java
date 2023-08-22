@@ -1,7 +1,9 @@
 package renderer;
 
 import components.SpriteRenderer;
+import engine.Transform;
 import engine.Window;
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -176,6 +178,16 @@ public class RenderBatch implements Comparable<RenderBatch> {
             }
         }
 
+        //Add rotation
+        Transform goTransform = sprite.gameObject.transform;
+        boolean isRotated = goTransform.rotation != 0.0f;
+        Matrix4f transformationMatrix = new Matrix4f().identity();
+        if(isRotated){
+            transformationMatrix.translate(goTransform.position.x, goTransform.position.y, 0);
+            transformationMatrix.rotate((float)Math.toRadians(goTransform.rotation), 0, 0, 1);
+            transformationMatrix.scale(goTransform.scale.x, goTransform.scale.y, 0);
+        }
+
         // Add vertices with the appropriate properties
         float xAdd = 1.0f;
         float yAdd = 1.0f;
@@ -188,9 +200,14 @@ public class RenderBatch implements Comparable<RenderBatch> {
                 yAdd = 1.0f;
             }
 
+            Vector4f currentPos =  new Vector4f(goTransform.position.x + (xAdd * goTransform.scale.x), goTransform.position.y + (yAdd * goTransform.scale.y), 0, 1);
+            if(isRotated){
+              currentPos = new Vector4f(xAdd, yAdd, 0, 1).mul(transformationMatrix);
+            }
+
             // Load position
-            vertices[offset] = sprite.gameObject.transform.position.x + (xAdd * sprite.gameObject.transform.scale.x);
-            vertices[offset + 1] = sprite.gameObject.transform.position.y + (yAdd * sprite.gameObject.transform.scale.y);
+            vertices[offset] = currentPos.x;
+            vertices[offset + 1] = currentPos.y;
 
             // Load color
             vertices[offset + 2] = color.x;

@@ -91,7 +91,7 @@ public class DebugDraw {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawArrays(GL_LINES, 0, lines.size() * 6 * 2); //TODO implement bresenham's line algorithm
+        glDrawArrays(GL_LINES, 0, lines.size() * 2); //TODO implement bresenham's line algorithm
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);

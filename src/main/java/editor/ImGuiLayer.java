@@ -83,7 +83,7 @@ public class ImGuiLayer {
 
         setupDockSpace();
         currentScene.imGui();
-        ImGui.showDemoWindow();
+        //ImGui.showDemoWindow();
         gameViewWindow.imGui();
         propertiesWindow.update(deltaTime, currentScene);
         propertiesWindow.imGui();
@@ -251,5 +251,9 @@ public class ImGuiLayer {
         imGuiGl3.dispose();
         imGuiImplGlfw.dispose();
         ImGui.destroyContext();
+    }
+
+    public PropertiesWindow getPropertiesWindow() {
+        return propertiesWindow;
     }
 }

@@ -3,11 +3,8 @@ package scenes;
 import components.*;
 import editor.EditorCamera;
 import editor.GridLines;
-import editor.MouseControls;
-import engine.Camera;
-import engine.GameObject;
-import engine.Prefabs;
-import engine.Transform;
+import components.MouseControls;
+import engine.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
@@ -15,6 +12,7 @@ import util.AssetPool;
 
 public class LevelEditorScene extends Scene{
     private Spritesheet sprites;
+    private Spritesheet gizmos;
     private GameObject levelEditorObject = new GameObject("Level Editor Object", new Transform(new Vector2f()), 0);
 
     public LevelEditorScene(){
@@ -24,20 +22,22 @@ public class LevelEditorScene extends Scene{
     @Override
     public void init() {
         loadResources();
+        gizmos = AssetPool.getSpritesheet("assets/images/gizmos.png");
+        sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         this.camera = new Camera(new Vector2f());
         this.camera.adjustProjection();
+
         levelEditorObject.addComponent(new MouseControls());
         levelEditorObject.addComponent(new GridLines());
         levelEditorObject.addComponent(new EditorCamera(this.camera));
-        sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
-
+        levelEditorObject.addComponent(new TranslateGizmos(gizmos.getSprite(1), Window.get().getImGuiLayer().getPropertiesWindow())); //TODO add a event system
+        levelEditorObject.start();
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
-        AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png",
-                new Spritesheet( AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"),
-                        16, 16, 81, 0));
+        AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png", new Spritesheet( AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"), 16, 16, 81, 0));
+        AssetPool.addSpritesheet("assets/images/gizmos.png", new Spritesheet(AssetPool.getTexture("assets/images/gizmos.png"), 24, 48, 2, 0));
         AssetPool.getTexture("assets/images/testImage.png");
 
         for(GameObject go : gameObjects){
@@ -68,6 +68,17 @@ public class LevelEditorScene extends Scene{
 
     @Override
     public void imGui() {
+        levelPropertiesWindowImGui();
+        spritesWindowImGui();
+    }
+
+    private void levelPropertiesWindowImGui() {
+        ImGui.begin("Level Editor Properties");
+        levelEditorObject.imGui();
+        ImGui.end();
+    }
+
+    private void spritesWindowImGui() {
         ImGui.begin("Sprites");
 
         ImVec2 windowPos = new ImVec2();
