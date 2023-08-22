@@ -17,6 +17,7 @@ public class EditorCamera extends Component {
     private float lerpTime = 0.0f;
     private float dragSensitivity = 60.0f;
     private float scrollSensitivity = 0.1f;
+    private float cameraSpeed = 0.5f;
     private boolean reset = false;
 
     public EditorCamera(Camera LevelEditorCamera) {
@@ -52,7 +53,7 @@ public class EditorCamera extends Component {
             levelEditorCamera.position.lerp(new Vector2f(0,0), lerpTime);
             levelEditorCamera.setZoom(this.levelEditorCamera.getZoom() +
                     ((1.0f - levelEditorCamera.getZoom()) * lerpTime));
-            this.lerpTime += 0.5f * deltaTime;
+            this.lerpTime += cameraSpeed * deltaTime;
             if(Math.abs(levelEditorCamera.position.x) <= 5.0f && Math.abs(levelEditorCamera.position.x) <= 5.0f){
                 levelEditorCamera.position.set(0f, 0f);
                 this.levelEditorCamera.setZoom(1.0f);

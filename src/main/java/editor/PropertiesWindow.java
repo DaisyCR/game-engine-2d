@@ -36,7 +36,7 @@ public class PropertiesWindow {
 
     public void imGui() {
         if (activeGameObject != null) {
-            ImGui.begin("Properties");
+            ImGui.begin("Object Properties");
             activeGameObject.imGui();
             ImGui.end();
         }
