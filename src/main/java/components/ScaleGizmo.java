@@ -10,7 +10,7 @@ public class ScaleGizmo extends Gizmo{
     }
 
     @Override
-    public void update(float deltaTime){
+    public void editorUpdate(float deltaTime){
         if(activeGameobject != null){
             if(xAxisActive && !yAxisActive){
                 activeGameobject.transform.scale.x -= MouseListener.getWorldDeltaX();
@@ -19,6 +19,6 @@ public class ScaleGizmo extends Gizmo{
             }
         }
 
-        super.update(deltaTime);
+        super.editorUpdate(deltaTime);
     }
 }

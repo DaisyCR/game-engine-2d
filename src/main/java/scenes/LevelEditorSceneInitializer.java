@@ -9,38 +9,39 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import util.AssetPool;
+import util.Constants;
 
-public class LevelEditorScene extends Scene{
+public class LevelEditorSceneInitializer extends SceneInitializer{
+    private GameObject levelEditorObject;
     private Spritesheet sprites;
     private Spritesheet gizmos;
-    private GameObject levelEditorObject = this.createGameObject("Level Editor Object");
 
-    public LevelEditorScene(){
+    public LevelEditorSceneInitializer(){
 
     }
 
     @Override
-    public void init() {
-        loadResources();
+    public void init(Scene scene) {
         gizmos = AssetPool.getSpritesheet("assets/images/gizmos.png");
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
-        this.camera = new Camera(new Vector2f());
-        this.camera.adjustProjection();
 
+        levelEditorObject = scene.createGameObject("Level Editor Object");
         levelEditorObject.addComponent(new MouseControls());
         levelEditorObject.addComponent(new GridLines());
-        levelEditorObject.addComponent(new EditorCamera(this.camera));
+        levelEditorObject.addComponent(new EditorCamera(scene.camera()));
         levelEditorObject.addComponent(new GizmoSystem(gizmos));
-        levelEditorObject.start();
+        levelEditorObject.setNoSerialize();
+        scene.addGameObjectToScene(levelEditorObject);
     }
 
-    private void loadResources() {
+    @Override
+    public void loadResources(Scene scene) {
         AssetPool.getShader("assets/shaders/default.glsl");
         AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png", new Spritesheet( AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"), 16, 16, 81, 0));
         AssetPool.addSpritesheet("assets/images/gizmos.png", new Spritesheet(AssetPool.getTexture("assets/images/gizmos.png"), 24, 48, 3, 0));
         AssetPool.getTexture("assets/images/testImage.png");
 
-        for(GameObject go : gameObjects){
+        for(GameObject go : scene.getGameObjects()){
             if(go.getComponent(SpriteRenderer.class) != null) {
                 SpriteRenderer spr = go.getComponent(SpriteRenderer.class);
                 if(spr.getTexture() != null){
@@ -49,22 +50,6 @@ public class LevelEditorScene extends Scene{
             }
         }
     }
-
-    @Override
-    public void update(float deltaTime) {
-        levelEditorObject.update(deltaTime);
-
-        for(GameObject go : this.gameObjects){
-            go.update(deltaTime);
-        }
-
-    }
-
-    @Override
-    public void render(){
-        this.renderer.render();
-    }
-
 
     @Override
     public void imGui() {
@@ -99,7 +84,7 @@ public class LevelEditorScene extends Scene{
 
             ImGui.pushID(i);
             if( ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y) ){
-                GameObject object = Prefabs.generateSpriteObject(sprite, 32, 32);
+                GameObject object = Prefabs.generateSpriteObject(sprite, Constants.GRID_WIDTH.getValue(), Constants.GRID_HEIGHT.getValue());
                 levelEditorObject.getComponent(MouseControls.class).pickUpObject(object);
             }
             ImGui.popID();

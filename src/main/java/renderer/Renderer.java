@@ -37,7 +37,7 @@ public class Renderer {
         }
 
         if( !isAdded ){
-            RenderBatch newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.gameObject.transform.zIndex);
+            RenderBatch newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.gameObject.transform.zIndex, this);
             newBatch.start();
             batches.add(newBatch);
             newBatch.addSprite(sprite);
@@ -47,8 +47,8 @@ public class Renderer {
 
     public void render(){
         currentShader.use();
-        for( RenderBatch batch : batches ){
-            batch.render();
+        for(int i = 0; i < batches.size(); i++){
+            batches.get(i).render();
         }
     }
 
@@ -58,5 +58,14 @@ public class Renderer {
 
     public static Shader getBoundShader(){
         return currentShader;
+    }
+
+    public void destroyGameObject(GameObject go) {
+        if(go.getComponent(SpriteRenderer.class) == null) return;
+        for(RenderBatch batch : batches){
+            if(batch.destroyIfExists(go)) {
+                return;
+            }
+        }
     }
 }

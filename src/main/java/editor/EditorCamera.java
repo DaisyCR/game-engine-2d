@@ -9,7 +9,7 @@ import org.joml.Vector2f;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class EditorCamera extends Component {
-    private float dragDebounce = 0.05f; //TODO FIX MOUSEDRAGGING FUNCTION
+    private float dragDebounce = 0.05f;
 
     private final Camera levelEditorCamera;
     private Vector2f clickOrigin;
@@ -26,7 +26,7 @@ public class EditorCamera extends Component {
     }
 
     @Override
-    public void update(float deltaTime){
+    public void editorUpdate(float deltaTime){
         if(MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE) && dragDebounce > 0){
             this.clickOrigin = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
             dragDebounce -= deltaTime;
@@ -41,8 +41,6 @@ public class EditorCamera extends Component {
         if(dragDebounce <= 0.0f && !MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_MIDDLE)){
             dragDebounce = 0.05f;
         }
-
-        //TODO fix bug where snap to grid breaks when camera moves
         //TODO add zoom option with keyboard
 
         if(KeyListener.isKeyPressed(GLFW_KEY_KP_0)){

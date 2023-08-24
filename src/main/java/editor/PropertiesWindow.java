@@ -4,6 +4,9 @@ import components.NonPickable;
 import engine.GameObject;
 import engine.MouseListener;
 import imgui.ImGui;
+import physics2d.components.BoxCollider;
+import physics2d.components.CircleCollider;
+import physics2d.components.RigidBody2D;
 import scenes.Scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
@@ -17,7 +20,7 @@ public class PropertiesWindow {
         this.pickingTexture = pickingTexture;
     }
 
-    public void update(float deltaTime, Scene currentScene){
+    public void editorUpdate(float deltaTime, Scene currentScene){
         deBounce -= deltaTime;
         if(MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) && deBounce < 0){
             int x = (int)MouseListener.getScreenX();
@@ -37,6 +40,26 @@ public class PropertiesWindow {
     public void imGui() {
         if (activeGameObject != null) {
             ImGui.begin("Object Properties");
+
+            if(ImGui.beginPopupContextWindow("Add Component")){
+                if(ImGui.menuItem("Add Rigidbody")){
+                    if(activeGameObject.getComponent(RigidBody2D.class) == null){
+                        activeGameObject.addComponent(new RigidBody2D());
+                    }
+                }
+                if(ImGui.menuItem("Add BoxCollider")){
+                    if(activeGameObject.getComponent(BoxCollider.class) == null && activeGameObject.getComponent(CircleCollider.class) == null){
+                        activeGameObject.addComponent(new BoxCollider());
+                    }
+                }
+                if(ImGui.menuItem("Add CircleCollider")){
+                    if(activeGameObject.getComponent(CircleCollider.class) == null && activeGameObject.getComponent(BoxCollider.class) == null){
+                        activeGameObject.addComponent(new CircleCollider());
+                    }
+                }
+                ImGui.endPopup();
+            }
+
             activeGameObject.imGui();
             ImGui.end();
         }
@@ -45,5 +68,9 @@ public class PropertiesWindow {
 
     public GameObject getActiveGameObject() {
         return activeGameObject;
+    }
+
+    public void setActiveGameObject(GameObject activeGameObject) {
+        this.activeGameObject = activeGameObject;
     }
 }

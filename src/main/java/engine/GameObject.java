@@ -1,7 +1,12 @@
 package engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import components.Component;
+import components.ComponentDeserializer;
+import components.SpriteRenderer;
 import imgui.ImGui;
+import util.AssetPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +18,7 @@ public class GameObject {
     private List<Component> components;
     public transient Transform transform;
     private boolean doSerialization = true;
+    private boolean isDead = false;
 
     public GameObject(String name){
         this.name = name;
@@ -64,6 +70,13 @@ public class GameObject {
         }
     }
 
+    public void editorUpdate(float deltaTime) {
+        for(int i = 0; i < components.size(); i++){
+            components.get(i).editorUpdate(deltaTime);
+        }
+
+    }
+
     public void start(){
         for(int i = 0; i < components.size(); i++){
             components.get(i).start();
@@ -82,6 +95,9 @@ public class GameObject {
         return this.uId;
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
 
     public void setNoSerialize() {
         this.doSerialization = false;
@@ -89,5 +105,35 @@ public class GameObject {
 
     public boolean doSerialization() {
         return doSerialization;
+    }
+
+    public void destroy() {
+        this.isDead = true;
+        for(int i = 0; i < components.size(); i++){
+            components.get(i).destroy();
+        }
+    }
+
+  public GameObject copy() {
+        //TODO clean this up later
+      Gson gson = new GsonBuilder()
+              .registerTypeAdapter(Component.class, new ComponentDeserializer())
+              .registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
+              .create();
+      String objAsJson = gson.toJson(this);
+      GameObject newGo = gson.fromJson(objAsJson, GameObject.class);
+      newGo.generateUid();
+      for(Component c : components){
+          c.generateId();
+      }
+      SpriteRenderer spr = newGo.getComponent(SpriteRenderer.class);
+      if(spr != null && spr.getTexture() != null){
+        spr.setTexture(AssetPool.getTexture(spr.getTexture().getFilepath()));
+      }
+      return newGo;
+  }
+
+    private void generateUid() {
+        this.uId = ID_COUNTER++;
     }
 }

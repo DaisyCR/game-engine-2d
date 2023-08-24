@@ -10,25 +10,25 @@ import util.Constants;
 
 public class GridLines extends Component {
     @Override
-    public void update(float deltaTime){
+    public void editorUpdate(float deltaTime){
         Camera camera = Window.getScene().camera();
         Vector2f cameraPos = camera.position;
         Vector2f projectionSize = camera.getProjectionSize();
 
-        int firstX = ((int)(cameraPos.x / Constants.GRID_WIDTH) - 1) * Constants.GRID_HEIGHT;
-        int firstY = ((int)(cameraPos.y / Constants.GRID_HEIGHT) - 1) * Constants.GRID_HEIGHT;
+        float firstX = ((cameraPos.x / Constants.GRID_WIDTH.getValue()) - 1) * Constants.GRID_HEIGHT.getValue();
+        float firstY = ((cameraPos.y / Constants.GRID_HEIGHT.getValue()) - 1) * Constants.GRID_HEIGHT.getValue();
 
-        int numVerticalLines = (int)(projectionSize.x * camera.getZoom() / Constants.GRID_WIDTH) + 2;
-        int numHorizontalLines = (int)(projectionSize.y * camera.getZoom() / Constants.GRID_HEIGHT) + 2;
+        int numVerticalLines = (int)(projectionSize.x * camera.getZoom() / Constants.GRID_WIDTH.getValue()) + 2;
+        int numHorizontalLines = (int)(projectionSize.y * camera.getZoom() / Constants.GRID_HEIGHT.getValue()) + 2;
 
-        int width = (int)(projectionSize.x * camera.getZoom()) + Constants.GRID_HEIGHT * 2;
-        int height =(int)(projectionSize.y * camera.getZoom()) + Constants.GRID_WIDTH * 2;
+        float width = (projectionSize.x * camera.getZoom()) + Constants.GRID_HEIGHT.getValue() * 2;
+        float height =(projectionSize.y * camera.getZoom()) + Constants.GRID_WIDTH.getValue() * 2;
 
         int maxLines = Math.max(numVerticalLines, numHorizontalLines);
         for(int i = 0; i < maxLines; i++){
             Vector3f color = new Vector3f(0.2f, 0.2f, 0.2f);
-            int x = firstX + (Constants.GRID_WIDTH * i);
-            int y = firstY + (Constants.GRID_HEIGHT * i);
+            float x = firstX + (Constants.GRID_WIDTH.getValue() * i);
+            float y = firstY + (Constants.GRID_HEIGHT.getValue() * i);
 
             if(i < numVerticalLines){
                 DebugDraw.addLine2D(new Vector2f(x, firstY), new Vector2f(x, firstY + height), color);

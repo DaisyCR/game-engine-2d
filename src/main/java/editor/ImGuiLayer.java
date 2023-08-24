@@ -29,11 +29,13 @@ public class ImGuiLayer {
 
     private GameViewWindow gameViewWindow;
     private PropertiesWindow propertiesWindow;
+    private MenuBar menuBar;
 
     public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture){
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
+        this.menuBar = new MenuBar();
     }
 
     public void initImGui() {
@@ -78,14 +80,13 @@ public class ImGuiLayer {
 
     public void update(float deltaTime, Scene currentScene){
         startFrame(deltaTime);
-        imGuiImplGlfw.newFrame();
         ImGui.newFrame();
 
         setupDockSpace();
         currentScene.imGui();
-        //ImGui.showDemoWindow();
+        menuBar.imGui();
         gameViewWindow.imGui();
-        propertiesWindow.update(deltaTime, currentScene);
+        propertiesWindow.editorUpdate(deltaTime, currentScene);
         propertiesWindow.imGui();
         ImGui.end();
 
@@ -194,13 +195,13 @@ public class ImGuiLayer {
                 KeyListener.keyCallback(w, key, scancode, action, mods);
             }
         });
-
+/*
         glfwSetCharCallback(glfwWindow, (w, c) -> {
             if (c != GLFW_KEY_DELETE) {
                 io.addInputCharacter(c);
             }
         });
-
+ */
         glfwSetMouseButtonCallback(glfwWindow, (w, button, action, mods) -> {
             final boolean[] mouseDown = new boolean[5];
 

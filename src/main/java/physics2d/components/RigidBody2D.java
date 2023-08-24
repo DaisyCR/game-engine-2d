@@ -13,7 +13,7 @@ public class RigidBody2D extends Component {
     private BodyType bodyType = BodyType.Dynamic;
     private boolean fixedRotation = false;
     private boolean continuousCollision = true;
-    private Body rawbody = null;
+    private transient Body rawbody = null;
 
     @Override
     public void update(float deltaTime){

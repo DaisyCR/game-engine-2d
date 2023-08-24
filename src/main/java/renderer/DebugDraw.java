@@ -112,36 +112,37 @@ public class DebugDraw {
         DebugDraw.lines.add(new Line2D(start, end, color, lifetime));
     }
 
-    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation){
-        addBox2D(center, dimensions, rotation, new Vector3f(0,1,0), 1);
+    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation) {
+        // TODO: ADD CONSTANTS FOR COMMON COLORS
+        addBox2D(center, dimensions, rotation, new Vector3f(0, 1, 0), 1);
     }
 
-    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation, Vector3f color){
+    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation, Vector3f color) {
         addBox2D(center, dimensions, rotation, color, 1);
     }
 
-    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation, Vector3f color, int lifetime){
-        Vector2f min = new Vector2f(center).sub(new Vector2f(dimensions).div(2.0f));
-        Vector2f max = new Vector2f(center).add(new Vector2f(dimensions).div(2.0f));
+    public static void addBox2D(Vector2f center, Vector2f dimensions, float rotation,
+                                Vector3f color, int lifetime) {
+        Vector2f min = new Vector2f(center).sub(new Vector2f(dimensions).mul(0.5f));
+        Vector2f max = new Vector2f(center).add(new Vector2f(dimensions).mul(0.5f));
 
         Vector2f[] vertices = {
-          new Vector2f(min.x, min.y), new Vector2f(min.x, max.y), new Vector2f(max.x, max.y), new Vector2f(max.x, min.y)
+                new Vector2f(min.x, min.y), new Vector2f(min.x, max.y),
+                new Vector2f(max.x, max.y), new Vector2f(max.x, min.y)
         };
 
-        /*
-        if(rotation != 0.0){
-            for(Vector2f vertice : vertices){
-                JMath.rotate(vertice, rotation, center);
+        if (rotation != 0.0f) {
+            for (Vector2f vert : vertices) {
+                EMath.rotate(vert, rotation, center);
             }
         }
-        */
 
-
-        addLine2D(vertices[0], vertices[3], color, lifetime);
         addLine2D(vertices[0], vertices[1], color, lifetime);
+        addLine2D(vertices[0], vertices[3], color, lifetime);
         addLine2D(vertices[1], vertices[2], color, lifetime);
         addLine2D(vertices[2], vertices[3], color, lifetime);
     }
+
 
     public static void addCircle2D(Vector2f center, float radius){
         addCircle2D(center, radius, new Vector3f(0,1,0), 1, 36);

@@ -1,6 +1,5 @@
 package components;
 
-import components.Component;
 import engine.GameObject;
 import engine.MouseListener;
 import engine.Window;
@@ -21,14 +20,14 @@ public class MouseControls extends Component {
     }
 
     @Override
-    public void update(float deltaTime){
+    public void editorUpdate(float deltaTime){
         if( holdingObject != null ){
             holdingObject.transform.position.x = MouseListener.getOrthoX();
             holdingObject.transform.position.y = MouseListener.getOrthoY();
 
             //Snap object position to grid
-            holdingObject.transform.position.x = (int)(holdingObject.transform.position.x / Constants.GRID_WIDTH) * Constants.GRID_WIDTH;
-            holdingObject.transform.position.y = (int)(holdingObject.transform.position.y / Constants.GRID_HEIGHT) * Constants.GRID_HEIGHT;
+            holdingObject.transform.position.x = (int)(holdingObject.transform.position.x / Constants.GRID_WIDTH.getValue()) * Constants.GRID_WIDTH.getValue();
+            holdingObject.transform.position.y = (int)(holdingObject.transform.position.y / Constants.GRID_HEIGHT.getValue()) * Constants.GRID_HEIGHT.getValue();
 
 
             if( MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) ){

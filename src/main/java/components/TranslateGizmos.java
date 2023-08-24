@@ -10,7 +10,7 @@ public class TranslateGizmos extends Gizmo{
     }
 
     @Override
-    public void update(float deltaTime){
+    public void editorUpdate(float deltaTime){
         if(activeGameobject != null){
             if(xAxisActive && !yAxisActive){
                 activeGameobject.transform.position.x -= MouseListener.getWorldDeltaX();
@@ -19,6 +19,6 @@ public class TranslateGizmos extends Gizmo{
             }
         }
 
-        super.update(deltaTime);
+        super.editorUpdate(deltaTime);
     }
 }
