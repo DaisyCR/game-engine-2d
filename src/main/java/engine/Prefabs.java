@@ -6,7 +6,7 @@ import components.SpriteRenderer;
 public class Prefabs {
 
     public static GameObject generateSpriteObject(Sprite sprite, float sizeX, float sizeY){
-        GameObject spriteObject = Window.getScene().createGameObject("Sprite_Object_Gen");
+        GameObject spriteObject = Window.getScene().createGameObject("New Object");
         spriteObject.transform.scale.x = sizeX;
         spriteObject.transform.scale.y = sizeY;
         SpriteRenderer renderer = new SpriteRenderer();

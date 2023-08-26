@@ -7,7 +7,7 @@ import observers.events.EventType;
 
 public class MenuBar {
   public void imGui(){
-    ImGui.beginMainMenuBar();
+    ImGui.beginMenuBar();
 
     if(ImGui.beginMenu("File")){
       if(ImGui.menuItem("Save", "Ctrl+S")){
@@ -22,6 +22,6 @@ public class MenuBar {
     }
 
 
-    ImGui.endMainMenuBar();
+    ImGui.endMenuBar();
   }
 }

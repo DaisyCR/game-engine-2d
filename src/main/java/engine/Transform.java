@@ -39,8 +39,6 @@ public class Transform extends Component {
         to.scale.set(this.scale);
     }
 
-
-
     @Override
     public boolean equals(Object o){
         if( o == null ) return false;
@@ -56,10 +54,10 @@ public class Transform extends Component {
 
     @Override
     public void imGui(){
+        gameObject.name = ImGuiTools.inputText("Name", gameObject.name);
         ImGuiTools.drawVec2Controls("Position", this.position);
         ImGuiTools.drawVec2Controls("Scale", this.scale, Constants.GRID_HEIGHT.getValue());
         this.rotation = ImGuiTools.drawFloatControls("Rotation", this.rotation);
         this.zIndex = ImGuiTools.drawIntControls("zIndex", this.zIndex);
-
     }
 }
