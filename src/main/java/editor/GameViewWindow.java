@@ -32,24 +32,21 @@ public class GameViewWindow {
 
         ImGui.endMenuBar();
 
+        ImGui.setCursorPos(ImGui.getCursorPosX(), ImGui.getCursorPosY());
         ImVec2 windowSize = getLargestSizeForViewport();
         ImVec2 windowPosition = getCenterPositionForViewport(windowSize);
         ImGui.setCursorPos(windowPosition.x, windowPosition.y);
 
-
-        ImVec2 topLeft = new ImVec2();
-        ImGui.getCursorScreenPos(topLeft);
-        topLeft.x -= ImGui.getScrollX();
-        topLeft.y -= ImGui.getScrollY();
-        leftX = topLeft.x;
-        bottomY = topLeft.y;
-        rightX = topLeft.x + windowSize.x;
-        topY = topLeft.y + windowSize.y;
+        float fix = 5;
+        leftX = windowPosition.x + fix;
+        bottomY = windowPosition.y;
+        rightX = windowPosition.x + windowSize.x + fix;
+        topY = windowPosition.y + windowSize.y;
 
         int texId = Window.getFramebuffer().getTextureId();
         ImGui.image(texId, windowSize.x, windowSize.y, 0,1,1,0);
 
-        MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));
+        MouseListener.setGameViewportPos(new Vector2f(windowPosition.x + fix, windowPosition.y));
         MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
 
         ImGui.end();
@@ -58,8 +55,6 @@ public class GameViewWindow {
     private ImVec2 getLargestSizeForViewport() {
         ImVec2 windowSize = new ImVec2();
         ImGui.getContentRegionAvail(windowSize);
-        windowSize.x -= ImGui.getScrollX();
-        windowSize.y -= ImGui.getScrollY();
 
         float aspectWidth = windowSize.x;
         float aspectHeight = aspectWidth / Window.getAspectRatio();
@@ -74,8 +69,6 @@ public class GameViewWindow {
     private ImVec2 getCenterPositionForViewport(ImVec2 aspectSize) {
         ImVec2 windowSize = new ImVec2();
         ImGui.getContentRegionAvail(windowSize);
-        windowSize.x -= ImGui.getScrollX();
-        windowSize.y -= ImGui.getScrollY();
 
         float viewportX = (windowSize.x / 2.0f) - (aspectSize.x / 2.0f);
         float viewportY = (windowSize.y / 2.0f) - (aspectSize.y / 2.0f);

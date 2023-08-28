@@ -99,10 +99,10 @@ public class ImGuiLayer {
     }
 
     private void endFrame() {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, Window.getWidth(), Window.getHeight());
-        glClearColor(0, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
+       // glClearColor(0, 0, 0, 1);
+     //   glClear(GL_COLOR_BUFFER_BIT);
 
         ImGui.render();
         imGuiGl3.renderDrawData(ImGui.getDrawData());

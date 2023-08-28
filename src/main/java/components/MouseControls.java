@@ -3,6 +3,7 @@ package components;
 import engine.GameObject;
 import engine.MouseListener;
 import engine.Window;
+import org.joml.Vector2f;
 import util.Constants;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
@@ -22,12 +23,12 @@ public class MouseControls extends Component {
     @Override
     public void editorUpdate(float deltaTime){
         if( holdingObject != null ){
-            holdingObject.transform.position.x = MouseListener.getOrthoX();
-            holdingObject.transform.position.y = MouseListener.getOrthoY();
+            holdingObject.transform.position.x = MouseListener.getWorldX();
+            holdingObject.transform.position.y = MouseListener.getWorldY();
 
             //Snap object position to grid
-            holdingObject.transform.position.x = (int)(holdingObject.transform.position.x / Constants.GRID_WIDTH.getValue()) * Constants.GRID_WIDTH.getValue();
-            holdingObject.transform.position.y = (int)(holdingObject.transform.position.y / Constants.GRID_HEIGHT.getValue()) * Constants.GRID_HEIGHT.getValue();
+            holdingObject.transform.position.x = ((int)Math.floor(holdingObject.transform.position.x / Constants.GRID_WIDTH.getValue()) * Constants.GRID_WIDTH.getValue() + Constants.GRID_WIDTH.getValue() / 2.0f);
+            holdingObject.transform.position.y = ((int)Math.floor(holdingObject.transform.position.y / Constants.GRID_HEIGHT.getValue()) * Constants.GRID_HEIGHT.getValue() + Constants.GRID_HEIGHT.getValue() / 2.0f);;
 
 
             if( MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT) ){
