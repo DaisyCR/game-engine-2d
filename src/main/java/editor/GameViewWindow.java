@@ -12,8 +12,8 @@ import observers.events.EventType;
 import org.joml.Vector2f;
 
 public class GameViewWindow {
-    private static float leftX, rightX, topY, bottomY;
     private boolean isPlaying = false;
+    private boolean windowIsHovered;
 
     public void imGui(){
         ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse | ImGuiWindowFlags.MenuBar);
@@ -37,16 +37,11 @@ public class GameViewWindow {
         ImVec2 windowPosition = getCenterPositionForViewport(windowSize);
         ImGui.setCursorPos(windowPosition.x, windowPosition.y);
 
-        float fix = 5;
-        leftX = windowPosition.x + fix;
-        bottomY = windowPosition.y;
-        rightX = windowPosition.x + windowSize.x + fix;
-        topY = windowPosition.y + windowSize.y;
-
         int texId = Window.getFramebuffer().getTextureId();
-        ImGui.image(texId, windowSize.x, windowSize.y, 0,1,1,0);
+        ImGui.imageButton(texId, windowSize.x, windowSize.y, 0,1,1,0);
+        windowIsHovered = ImGui.isItemHovered();
 
-        MouseListener.setGameViewportPos(new Vector2f(windowPosition.x + fix, windowPosition.y));
+        MouseListener.setGameViewportPos(new Vector2f(windowPosition.x, windowPosition.y));
         MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
 
         ImGui.end();
@@ -76,9 +71,7 @@ public class GameViewWindow {
         return new ImVec2(viewportX + ImGui.getCursorPosX(), viewportY + ImGui.getCursorPosY());
     }
 
-
     public boolean getWantCaptureMouse() {
-        return MouseListener.getX() >= leftX && MouseListener.getX() <= rightX &&
-                MouseListener.getY() >= bottomY && MouseListener.getY() <= topY;
+        return windowIsHovered;
     }
 }
