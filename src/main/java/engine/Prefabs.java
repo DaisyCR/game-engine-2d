@@ -1,7 +1,8 @@
 package engine;
 
-import components.Sprite;
-import components.SpriteRenderer;
+import components.*;
+import util.AssetPool;
+import util.Constants;
 
 public class Prefabs {
 
@@ -14,5 +15,26 @@ public class Prefabs {
         spriteObject.addComponent(renderer);
 
         return spriteObject;
+    }
+
+    public static GameObject generatePlayer() {
+        Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
+        GameObject player = generateSpriteObject(playerSprites.getSprite(0), Constants.GRID_WIDTH.getValue(), Constants.GRID_HEIGHT.getValue());
+
+        AnimationState run = new AnimationState();
+        run.title = "Run";
+        float defaultFrameTime = 0.23f;
+        run.addFrame(playerSprites.getSprite(0), defaultFrameTime);
+        run.addFrame(playerSprites.getSprite(2), defaultFrameTime);
+        run.addFrame(playerSprites.getSprite(3), defaultFrameTime);
+        run.addFrame(playerSprites.getSprite(2), defaultFrameTime);
+        run.setLoop(true);
+
+        StateMachine stateMachine = new StateMachine();
+        stateMachine.addState(run);
+        stateMachine.setDefaultState(run.title);
+        player.addComponent(stateMachine);
+
+        return player;
     }
 }

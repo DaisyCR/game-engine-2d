@@ -1,5 +1,7 @@
 package components;
 
+import util.AssetPool;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public class AnimationState {
   private static Sprite defaultSprite = new Sprite();
   private transient float timeElapsed = 0f;
   private transient int currentSprite = 0;
-  private boolean doesLoop = false;
+  public boolean doesLoop = false;
 
   public void update(float deltaTime){
     if(currentSprite < animationFrames.size()){
@@ -37,5 +39,11 @@ public class AnimationState {
       return animationFrames.get(currentSprite).sprite;
     }
     return defaultSprite;
+  }
+
+  public void refreshTextures() {
+    for(Frame frame : animationFrames){
+      frame.sprite.setTexture(AssetPool.getTexture(frame.sprite.getTexture().getFilepath()));
+    }
   }
 }
