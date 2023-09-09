@@ -7,6 +7,10 @@ import observers.Observer;
 import observers.events.Event;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
 import renderer.*;
 import scenes.LevelEditorSceneInitializer;
@@ -18,6 +22,7 @@ import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -26,6 +31,8 @@ public class Window implements Observer {
     private long glfwWindow;
     private String title;
     private static Window window = null;
+    private static long audioContext;
+    private static long audioDevice;
     private static Scene currentScene;
     private static ImGuiLayer imGuiLayer;
     private Framebuffer framebuffer;
@@ -51,6 +58,10 @@ public class Window implements Observer {
 
         init();
         loop();
+
+        //Destroy audio context
+        alcDestroyContext(audioContext);
+        alcCloseDevice(audioDevice);
 
         //Free window callbacks and destroy windows
         glfwFreeCallbacks(glfwWindow);
@@ -102,6 +113,18 @@ public class Window implements Observer {
         //Make window visible
         glfwMaximizeWindow(glfwWindow);
         glfwShowWindow(glfwWindow);
+
+        //Initialize Audio
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        audioDevice = alcOpenDevice(defaultDeviceName);
+        int[] attributes = {0};
+        audioContext = alcCreateContext(audioDevice, attributes);
+        alcMakeContextCurrent(audioContext);
+        ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
+        ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+        if(!alCapabilities.OpenAL10){
+            assert false : "Audio library not supported";
+        }
 
         //Make OpenGL bindings available
         GL.createCapabilities();
