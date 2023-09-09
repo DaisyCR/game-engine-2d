@@ -177,7 +177,6 @@ public class Window implements Observer {
             glClear(GL_COLOR_BUFFER_BIT);
 
             if( deltaTime >= 0 ){
-                DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
                 if(isRuntimePlaying){
                     currentScene.update(deltaTime);
@@ -185,10 +184,13 @@ public class Window implements Observer {
                     currentScene.editorUpdate(deltaTime);
                 }
                 currentScene.render();
+                DebugDraw.draw();
             }
             this.framebuffer.unbind();
 
             this.imGuiLayer.update(deltaTime, currentScene);
+
+            MouseListener.endFrame();
             glfwSwapBuffers(glfwWindow); //Update buffers
             MouseListener.endFrame();
 
@@ -222,11 +224,11 @@ public class Window implements Observer {
     }
 
     public static int getWidth(){
-        return get().width;
+        return 1920;//get().width;
     }
 
     public static int getHeight(){
-        return get().height;
+        return 1080;//get().height;
     }
 
     public static Framebuffer getFramebuffer() {
