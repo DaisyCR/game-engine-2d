@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.Arrays;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyListener {
@@ -39,5 +41,9 @@ public class KeyListener {
             get().keyBeginPress[keyCode] = false;
         }
         return result;
+    }
+
+    public static void endFrame() {
+        Arrays.fill(get().keyBeginPress, false);
     }
 }

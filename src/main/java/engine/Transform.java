@@ -3,7 +3,7 @@ package engine;
 import components.Component;
 import editor.ImGuiTools;
 import org.joml.Vector2f;
-import util.Constants;
+import util.Settings;
 
 public class Transform extends Component {
 
@@ -56,7 +56,7 @@ public class Transform extends Component {
     public void imGui(){
         gameObject.name = ImGuiTools.inputText("Name", gameObject.name);
         ImGuiTools.drawVec2Controls("Position", this.position);
-        ImGuiTools.drawVec2Controls("Scale", this.scale, Constants.GRID_HEIGHT.getValue());
+        ImGuiTools.drawVec2Controls("Scale", this.scale, Settings.GRID_HEIGHT);
         this.rotation = ImGuiTools.drawFloatControls("Rotation", this.rotation);
         this.zIndex = ImGuiTools.drawIntControls("zIndex", this.zIndex);
     }

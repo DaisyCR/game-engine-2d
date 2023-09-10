@@ -10,7 +10,7 @@ import org.joml.Vector2i;
 import org.joml.Vector4f;
 import renderer.DebugDraw;
 import scenes.Scene;
-import util.Constants;
+import util.Settings;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +20,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 public class MouseControls extends Component {
     GameObject holdingObject = null;
-    private float debounceTime = 0.05f;
+    private float debounceTime = 0.2f;
     private float debounce = debounceTime;
 
     private boolean boxSelectSet = false;
@@ -52,11 +52,11 @@ public class MouseControls extends Component {
         PickingTexture pickingTexture = Window.getImGuiLayer().getPropertiesWindow().getPickingTexture();
         Scene currentScene = Window.getScene();
 
-        if (holdingObject != null && debounce <= 0.0f) {
+        if (holdingObject != null) {
             float x = MouseListener.getWorldX();
             float y = MouseListener.getWorldY();
-            holdingObject.transform.position.x = ((int)Math.floor(x / Constants.GRID_WIDTH.getValue()) * Constants.GRID_WIDTH.getValue()) + Constants.GRID_WIDTH.getValue() / 2.0f;
-            holdingObject.transform.position.y = ((int)Math.floor(y / Constants.GRID_HEIGHT.getValue()) * Constants.GRID_HEIGHT.getValue()) + Constants.GRID_HEIGHT.getValue() / 2.0f;
+            holdingObject.transform.position.x = ((int)Math.floor(x / Settings.GRID_WIDTH) * Settings.GRID_WIDTH) + Settings.GRID_WIDTH / 2.0f;
+            holdingObject.transform.position.y = ((int)Math.floor(y / Settings.GRID_HEIGHT) * Settings.GRID_HEIGHT) + Settings.GRID_HEIGHT / 2.0f;
 
             if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
                 placeObject();

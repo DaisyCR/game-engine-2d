@@ -3,10 +3,10 @@ package physics2d.components;
 import components.Collider;
 import org.joml.Vector2f;
 import renderer.DebugDraw;
-import util.Constants;
+import util.Settings;
 
 public class BoxCollider extends Collider {
-    private Vector2f halfSize = new Vector2f(Constants.GRID_WIDTH.getValue(), Constants.GRID_HEIGHT.getValue());
+    private Vector2f halfSize = new Vector2f(Settings.GRID_WIDTH, Settings.GRID_HEIGHT);
     private Vector2f origin = new Vector2f();
 
     public Vector2f getHalfSize() {

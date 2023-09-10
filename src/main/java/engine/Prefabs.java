@@ -2,7 +2,7 @@ package engine;
 
 import components.*;
 import util.AssetPool;
-import util.Constants;
+import util.Settings;
 
 public class Prefabs {
 
@@ -19,7 +19,7 @@ public class Prefabs {
 
     public static GameObject generatePlayer() {
         Spritesheet playerSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
-        GameObject player = generateSpriteObject(playerSprites.getSprite(0), Constants.GRID_WIDTH.getValue(), Constants.GRID_HEIGHT.getValue());
+        GameObject player = generateSpriteObject(playerSprites.getSprite(0), Settings.GRID_WIDTH, Settings.GRID_HEIGHT);
 
         AnimationState run = new AnimationState();
         run.title = "Run";

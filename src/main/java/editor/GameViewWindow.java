@@ -41,7 +41,8 @@ public class GameViewWindow {
         ImGui.imageButton(texId, windowSize.x, windowSize.y, 0,1,1,0);
         windowIsHovered = ImGui.isItemHovered();
 
-        MouseListener.setGameViewportPos(new Vector2f(windowPosition.x, windowPosition.y));
+        Vector2f magicNumbers = new Vector2f(10, 34); //TODO find the real reason for this bug
+        MouseListener.setGameViewportPos(new Vector2f(windowPosition.x + magicNumbers.x, windowPosition.y + magicNumbers.y));
         MouseListener.setGameViewportSize(new Vector2f(windowSize.x, windowSize.y));
 
         ImGui.end();

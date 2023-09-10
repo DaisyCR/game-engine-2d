@@ -28,16 +28,19 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window implements Observer {
     private int width, height;
-    private long glfwWindow;
     private String title;
-    private static Window window = null;
-    private static long audioContext;
-    private static long audioDevice;
-    private static Scene currentScene;
-    private static ImGuiLayer imGuiLayer;
+    private long glfwWindow;
+    private ImGuiLayer imGuiLayer;
     private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
     private boolean isRuntimePlaying = false;
+
+    private static Window window = null;
+
+    private long audioContext;
+    private long audioDevice;
+
+    private static Scene currentScene;
 
     private Window(){
         this.width = 1920;
@@ -190,9 +193,9 @@ public class Window implements Observer {
 
             this.imGuiLayer.update(deltaTime, currentScene);
 
+            KeyListener.endFrame();
             MouseListener.endFrame();
             glfwSwapBuffers(glfwWindow); //Update buffers
-            MouseListener.endFrame();
 
             float endFrameTime = (float) glfwGetTime();
             deltaTime = endFrameTime - startFrameTime;
@@ -204,7 +207,7 @@ public class Window implements Observer {
     }
 
     public static ImGuiLayer getImGuiLayer() {
-        return imGuiLayer;
+        return get().imGuiLayer;
     }
 
     public static Scene getScene(){
@@ -228,7 +231,7 @@ public class Window implements Observer {
     }
 
     public static int getHeight(){
-        return 1080;//get().height;
+        return 1080;// get().height;
     }
 
     public static Framebuffer getFramebuffer() {

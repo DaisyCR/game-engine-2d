@@ -4,7 +4,7 @@ import editor.PropertiesWindow;
 import engine.GameObject;
 import engine.KeyListener;
 import engine.Window;
-import util.Constants;
+import util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class KeyControls extends Component{
         if(KeyListener.isKeyPressed(GLFW_KEY_LEFT_CONTROL) && KeyListener.keyBeginPress(GLFW_KEY_D) && activeGameObject != null){
             GameObject newObj = activeGameObject.copy();
             Window.getScene().addGameObjectToScene(newObj);
-            newObj.transform.position.add(Constants.GRID_WIDTH.getValue(), 0f);
+            newObj.transform.position.add(Settings.GRID_WIDTH, 0f);
             propertiesWindow.setActiveGameObject(newObj);
         } else if(KeyListener.isKeyPressed(GLFW_KEY_LEFT_CONTROL) && KeyListener.keyBeginPress(GLFW_KEY_D) && activeGameObjectsList.size() > 1){
             List<GameObject> gameObjects = new ArrayList<>(activeGameObjectsList);

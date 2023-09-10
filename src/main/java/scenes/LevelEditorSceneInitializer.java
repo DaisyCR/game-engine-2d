@@ -10,7 +10,7 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import util.AssetPool;
-import util.Constants;
+import util.Settings;
 
 import java.io.File;
 import java.util.Collection;
@@ -88,6 +88,7 @@ public class LevelEditorSceneInitializer extends SceneInitializer{
     public void imGui() {
         levelPropertiesWindowImGui();
         objectsWindowsImGui();
+        System.out.println(MouseListener.getWorldX());
     }
 
     private void levelPropertiesWindowImGui() {
@@ -119,7 +120,7 @@ public class LevelEditorSceneInitializer extends SceneInitializer{
 
                     ImGui.pushID(i);
                     if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[2].x, texCoords[0].y, texCoords[0].x, texCoords[2].y)) {
-                        GameObject object = Prefabs.generateSpriteObject(sprite, Constants.GRID_WIDTH.getValue(), Constants.GRID_HEIGHT.getValue());
+                        GameObject object = Prefabs.generateSpriteObject(sprite, Settings.GRID_WIDTH, Settings.GRID_HEIGHT);
                         levelEditorObject.getComponent(MouseControls.class).pickUpObject(object);
                     }
                     ImGui.popID();
